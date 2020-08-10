@@ -1,16 +1,38 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
-<h1> Data Visualization - Comparing Highway and City Mileages with engine size as the size of the circle</h1>
+<h1> Data Visualization - Bar Viz among Cylinders -- Experimenting with Scales as well</h1>
 <style> rect {fill: lightblue; stroke: black; }</style>
 <body onload='init()'>
         <p> <a href = './engine.html' >Engine Cylinder Relation</a></a></p>
         <p><a href = './index.html'>Home Page</a></p>
-        <p><a href = '/./bar.html'>Current Page</a></p>
+        <p><a href = './bar.html'>Current Page</a></p>
 <svg width=300 height=300>
 </svg>
 <script>
-var data = [4,8,15,16,23,42];
+    async function init() {
+    const data = await d3.csv("https://flunky.github.io/cars2017.csv");
+    d = [data[0], data[8], data[24], data[36], data[5]];
+    var margin = 50;
+    var height = 200;
+    var width = 200;
+    xdomain = [0,150];
+    xrange = [0,150];
+    ydomain = [0,150];
+    yrange = [0,150];
+    xs = d3.scaleLinear().domain(xdomain).range(xrange);
+    ys = d3.scaleLinear().domain(ydomain).range(yrange);
 
+    d3.select('svg')
+   .selectAll('rect')
+  .data(d)
+  .enter()
+  .append('rect')
+    .attr('x',20)
+    .attr('y',function(d,i) {return ys(i);})
+    .attr('width',function(d,i) {return xs(+d.EngineCylinders);})
+    .attr('height',10)
+
+    }
 </script>
 </body>
 </html>
